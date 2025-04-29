@@ -3,19 +3,28 @@ server:
 
 spring:
   application:
-    name: GROWEASY
+    name: HYDROLINK
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     open-in-view: false
     show-sql: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
 
 jwt:
   secret:
     key: ${JWT_SECRET_KEY}
   user:
     generator: ${JWT_USER_GENERATOR}
+
+frontend:
+  url: ${FRONTEND_URL}
