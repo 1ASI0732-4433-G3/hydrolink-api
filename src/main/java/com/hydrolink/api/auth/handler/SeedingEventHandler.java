@@ -25,8 +25,6 @@ public class SeedingEventHandler {
     private final UserRepository userPersistence;
     private final RoleRepository rolePersistence;
     private final PasswordEncoder passwordEncoder;
-    private final DeviceRepository deviceRepository;
-    private final DeviceConfigRepository deviceConfigRepository;
 
     @EventListener
     public void on(ApplicationReadyEvent event) {
@@ -38,32 +36,34 @@ public class SeedingEventHandler {
         PermissionEntity updatePermission = PermissionEntity.builder().name("UPDATE").build();
         PermissionEntity deletePermission = PermissionEntity.builder().name("DELETE").build();
 
-        RoleEntity roleAdmin = RoleEntity.builder()
-                .roleName(RoleEnum.ADMIN)
-                .permissionList(Set.of(createPermission, readPermission, updatePermission, deletePermission))
-                .build();
+        if (rolePersistence.findAll().isEmpty()) {
 
-        RoleEntity roleUser = RoleEntity.builder()
-                .roleName(RoleEnum.AMATEUR)
-                .permissionList(Set.of(createPermission, readPermission, updatePermission, deletePermission))
-                .build();
+            RoleEntity roleAdmin = RoleEntity.builder()
+                    .roleName(RoleEnum.ADMIN)
+                    .permissionList(Set.of(createPermission, readPermission, updatePermission, deletePermission))
+                    .build();
 
-        RoleEntity roleGuest = RoleEntity.builder()
-                .roleName(RoleEnum.EXPERT)
-                .permissionList(Set.of(createPermission, readPermission, updatePermission, deletePermission))
-                .build();
+            RoleEntity roleUser = RoleEntity.builder()
+                    .roleName(RoleEnum.AMATEUR)
+                    .permissionList(Set.of(createPermission, readPermission, updatePermission, deletePermission))
+                    .build();
 
-        rolePersistence.saveAll(Set.of(roleAdmin, roleUser, roleGuest));
+            RoleEntity roleGuest = RoleEntity.builder()
+                    .roleName(RoleEnum.EXPERT)
+                    .permissionList(Set.of(createPermission, readPermission, updatePermission, deletePermission))
+                    .build();
 
-        //USUARIO DE PRUEBA
-        seedUsers(roleAdmin);
+            rolePersistence.saveAll(Set.of(roleAdmin, roleUser, roleGuest));
 
-        log.info("Finished seeding roles and users for {} at {}", name, new Timestamp(System.currentTimeMillis()));
+            seedUsers(roleAdmin);
+
+            log.info("Finished seeding roles and users for {} at {}", name, new Timestamp(System.currentTimeMillis()));
+        }
+
     }
 
     private void seedUsers(RoleEntity roleAdmin) {
 
-        // This is the user that will be created during the seeding process
         UserEntity user = UserEntity.builder()
                 .fullName("Admin User")
                 .username("admin")
@@ -72,27 +72,5 @@ public class SeedingEventHandler {
                 .build();
 
         userPersistence.save(user);
-
-//        seedDevice(user);
     }
-
-//    private void seedDevice(UserEntity user) {
-//
-//        DeviceData deviceData = DeviceData.builder()
-//                .serialNumber("device-ge001")
-//                .location("Living Room")
-//                .status(DeviceStatus.ACTIVE)
-//                .user(user)
-//                .build();
-//
-//        deviceDataRepository.save(deviceData);
-//
-//        seedConfig(deviceData);
-//    }
-//
-//    private void seedConfig(DeviceData deviceData) {
-//
-//        DeviceConfig deviceConfig = DeviceConfig.create(deviceData);
-//        deviceConfigRepository.save(deviceConfig);
-//    }
 }

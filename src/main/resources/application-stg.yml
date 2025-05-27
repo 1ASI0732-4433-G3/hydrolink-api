@@ -2,7 +2,7 @@ spring:
   application:
     name: HYDROLINK_STG
   datasource:
-    url: jdbc:mysql://localhost:3306/hydrolink?useSSL=true&serverTimezone=UTC
+    url: jdbc:postgresql://localhost:5432/hydrolink?useSSL=true&serverTimezone=UTC
     username: root
     password: root
   jpa:
