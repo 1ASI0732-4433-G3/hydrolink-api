@@ -17,6 +17,10 @@ import org.springframework.http.HttpHeaders;
                 version = "1.0.0",
                 license = @License(name = "Standard Software Use License for HydroLinkAPI", url = "https://hydrolink.example.com/license")
         ),
+        servers = @Server(
+                url = "https://inherent-steffi-hydrolink-531626a5.koyeb.app",
+                description = "Koyeb Production Server"
+        ),
         security = @SecurityRequirement(name = "Bearer Authentication")
 )
 @SecurityScheme(
