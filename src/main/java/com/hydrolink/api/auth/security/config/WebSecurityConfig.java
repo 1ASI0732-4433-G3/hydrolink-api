@@ -47,7 +47,7 @@ public class WebSecurityConfig {
         return httpSecurity
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration corsConfig = new CorsConfiguration();
-                    corsConfig.setAllowedOrigins(Arrays.asList(frontendUrl, "https://wokwi.com"));
+                    corsConfig.setAllowedOrigins(Arrays.asList(frontendUrl, "https://inherent-steffi-hydrolink-531626a5.koyeb.app", "https://wokwi.com"));
                     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     corsConfig.setAllowedHeaders(List.of("Content-Type", "Authorization"));
                     corsConfig.setAllowCredentials(true);
